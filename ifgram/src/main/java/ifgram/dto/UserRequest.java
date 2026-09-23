@@ -16,5 +16,5 @@ public record UserRequest(
         @NotNull
         String senha
 
-    )
+     )
 { }
