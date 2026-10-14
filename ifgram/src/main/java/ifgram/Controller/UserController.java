@@ -4,21 +4,22 @@ import ifgram.dto.UserRequest;
 import ifgram.dto.UserResponse;
 import ifgram.service.UserService;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
-@RequestMapping("users")
+@RequestMapping("user")
 public class UserController {
 
     public final UserService service;
 
-    public UserController(UserService service){
+    public UserController(UserService service) {
         this.service = service;
     }
 
 
     @GetMapping
-    public List<UserResponse> getUsers(){
+    public List<UserResponse> getUsers() {
         List<UserResponse> listaUsuarios = service.buscarTodosUsuarios();
         return listaUsuarios;
     }
@@ -30,7 +31,7 @@ public class UserController {
     }
 
     @DeleteMapping
-    public String deleteUser(){
+    public String deleteUser() {
         return "chamei o endpoint como um DELETE!";
     }
 
