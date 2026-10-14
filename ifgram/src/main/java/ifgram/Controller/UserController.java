@@ -25,14 +25,23 @@ public class UserController {
     }
 
     @PostMapping
-    public UserResponse postUser(UserRequest request) throws Exception {
-        UserResponse userResponse = service.criar(request);
-        return userResponse;
+    public String postUser(){
+        return "chamei o endpoint como um POST!";
     }
 
     @DeleteMapping
     public String deleteUser() {
         return "chamei o endpoint como um DELETE!";
+    }
+
+    @PutMapping
+    public String putUser(){
+        return "chamei o endpoint como um PUT!";
+    }
+
+    @PatchMapping
+    public String patchUser(){
+        return "chamei o endpoint como um PATCH!";
     }
 
 }
