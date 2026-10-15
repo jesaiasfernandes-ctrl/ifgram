@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static ifgram.dto.UserResponse.*;
 
@@ -19,13 +20,13 @@ public class UserService {
 
     private final UserRepository repository;
 
-    public UserService(UserRepository repository){
+    public UserService(UserRepository repository) {
         this.repository = repository;
     }
 
     @Transactional
     public UserResponse criar(UserRequest request) throws Exception {
-        if(repository.existsByEmail(request.email())){
+        if (repository.existsByEmail(request.email())) {
             throw new Exception("Email já cadastrado: " + request.email());
         }
         User usuarioNovo = new User(request.nome(), request.email());
@@ -38,10 +39,10 @@ public class UserService {
         return null;
     }
 
-    public List<UserResponse> buscarTodosUsuarios(){
+    public List<UserResponse> buscarTodosUsuarios() {
         List<User> listaUsuarios = repository.findAll();
         List<UserResponse> listaUsuariosResponse = new ArrayList<>();
-        for(User user : listaUsuarios) {
+        for (User user : listaUsuarios) {
             UserResponse userReponse = new UserResponse(
                     user.getId(),
                     user.getNome(),
@@ -50,5 +51,19 @@ public class UserService {
             listaUsuariosResponse.add(userReponse);
         }
         return listaUsuariosResponse;
+    }
+
+    public UserResponse atualizarUsuario(UserRequest request) throws Exception {
+        Optional<User> usuario = repository.findByEmail(request.email());
+        if (usuario.isEmpty()) {
+            throw new Exception("usuário não existe na base de dados.");
+        }
+
+
+        User usuarioSalvo = usuario.get();
+        usuarioSalvo.setNome(request.nome());
+        repository.save(usuarioSalvo);
+
+        return UserResponse.from(usuarioSalvo);
     }
 }
