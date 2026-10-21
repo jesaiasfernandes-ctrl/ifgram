@@ -13,34 +13,31 @@ public class UserController {
 
     public final UserService service;
 
-    public UserController(UserService service) {
+    public UserController(UserService service){
         this.service = service;
     }
 
+
     @GetMapping
-    public List<UserResponse> getUsers() {
+    public List<UserResponse> getUsers(){
         List<UserResponse> listaUsuarios = service.buscarTodosUsuarios();
         return listaUsuarios;
     }
 
     @PostMapping
-    public String postUser(){
-        return "chamei o endpoint como um POST!";
-    }
-
-    @DeleteMapping
-    public String deleteUser() {
-        return "chamei o endpoint como um DELETE!";
+    public UserResponse postUser(UserRequest request) throws Exception {
+        UserResponse userResponse = service.criar(request);
+        return userResponse;
     }
 
     @PutMapping
-    public String putUser(){
-        return "chamei o endpoint como um PUT!";
+    public UserResponse UpdateUser(UserRequest request) throws Exception {
+        return service.atualizarUsuario(request);
     }
 
-    @PatchMapping
-    public String patchUser(){
-        return "chamei o endpoint como um PATCH!";
+    @DeleteMapping
+    public String deleteUser(UserRequest request) throws Exception {
+        service.deletarUsuario(request);
+        return "Usuário deletado com sucesso!";
     }
-
 }
